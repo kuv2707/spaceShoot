@@ -1,5 +1,5 @@
-import shooter from "/js/shooter.js"
-import shootBullet from "/js/bullet.js"
+import shooter from "spaceShoot/js/shooter.js"
+import shootBullet from "spaceShoot/js/bullet.js"
 const Keys=new Map()
 document.addEventListener("keydown",(e)=>
 {
