@@ -1,49 +1,59 @@
 import makeTransformable from "/js/transformManager.js"
-export default function()
+export default function(scoreBoard,Game)
 {
     let tar=[]
-    for(let j=0;j<40;j++)
+    document.addEventListener("keypress",function(e)
     {
-        for(let i=j;i<25-j;i++)
+        if(e.key==" ")
         {
-            let t=document.createElement("label")
-            t.innerText="🧑‍🚀"
-            t.src="/../images/aliens.png"
-            t.className="targets"
-            t.variation={
-                ampl:{
-                    x:Math.random()*30,
-                    y:Math.random()*25
-                },
-                freq:{
-                    x:Math.random()*10,
-                    y:Math.random()*30
-                }
-            }
-            t.score=t.variation.ampl.x+t.variation.ampl.y+t.variation.freq.x+t.variation.freq.y
-            t.alive=true
-            makeTransformable(t)
-            t.move(50+i*50,j*30)
-            document.body.append(t)
-            tar.push(t)
-            
-        }
-
-    }
-    let t=0
-    let intid=setInterval(()=>
-    {
-        if(tar.length==0)
-        clearInterval(intid) 
-        tar.forEach(targetElement=>
+            let id=setInterval(()=>
             {
-                if(targetElement.alive)
+                if(Game.status==false)
+                return clearInterval(id)
+                for(let i=0;i<2;i++)
+                {
+                    let t=document.createElement("label")
+                    t.innerText="🧑‍🚀"
+                    t.src="/../images/aliens.png"
+                    t.className="targets"
+                    t.velocity={x:0,y:10*Math.random()}
+                    t.score=t.velocity.y
+                    t.alive=true
+                    makeTransformable(t)
+                    t.move(100+(window.innerWidth-250)*Math.random(),0)
+                    document.body.append(t)
+                    tar.push(t)
+                }
+        
+            },250)
+        }
+    })
+    
+    let ptr=()=>
+    {
+        for(let i=tar.length-1;i>=0;i--)
+            {
+                let targetElement=tar[i]
+                if(!targetElement.alive)
+                return
                 targetElement.move(
-                    targetElement.translateCoords.x+targetElement.variation.ampl.x*Math.sin(targetElement.variation.freq.x*t),
-                    targetElement.translateCoords.y+targetElement.variation.ampl.y*Math.sin(targetElement.variation.freq.y*t))
-            })
-            t+=0.05
-    },50)
+                    targetElement.translateCoords.x+targetElement.velocity.x,
+                    targetElement.translateCoords.y+targetElement.velocity.y)
+
+                    if(targetElement.translateCoords.y>window.innerHeight)
+                    {
+                        //gameOver()
+                        targetElement.remove()
+                        tar.splice(i,1)
+                        scoreBoard.addMiss()
+                        if(scoreBoard.misses>50)
+                        Game.status=false
+                    }
+            }
+            if(Game.status)
+            window.requestAnimationFrame(ptr)
+    }
+    window.requestAnimationFrame(ptr)
     return tar
 }
 

@@ -7,7 +7,6 @@ body
     background-color: black;
     margin:0;
     background:url("/images/backg.jpg");
-    background-repeat: no-repeat;
     background-size:100vw 100vh;
     overflow: hidden;
 }
@@ -40,6 +39,8 @@ body
     margin-top: 20px;
     margin-left: 20px;
     z-index: 2;
+    display:grid;
+    filter:drop-shadow(0 0 10px rgb(214, 214, 214))
 }
 @font-face { 
     font-family: 'Space';
@@ -47,9 +48,15 @@ body
     font-weight: normal;
     font-style: normal;
   }
-#scoreBoard label
+#scorLab
 {
     color:rgb(68, 230, 87);
     font-size: 30px;
     font-family: Space;
+}
+#misses
+{
+    font-size: 30px;
+    font-family: Space;
+    color:red;
 }

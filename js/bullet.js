@@ -1,65 +1,62 @@
 import Judge from "/js/judge.js"
-
+import makeTransformable from "/js/transformManager.js"
 const Bullets=new Map()
 const BULLET_VELO=15
-let canvas=document.createElement("canvas")
-canvas.id="canv"
-let g;
-window.addEventListener("resize",()=>
-{
-        
-    canvas.width=window.innerWidth
-    canvas.height=window.innerHeight
-    g=canvas.getContext("2d")
-})
-window.dispatchEvent(new Event("resize"))
-document.body.append(canvas)
 
-const DIMENSION_BULLET=80
-let image=new Image(DIMENSION_BULLET,DIMENSION_BULLET)
-image.src="/../images/bullet.png"
-image.id="bullet"
-
-let shooter;
+let shooter,Game;
 function shootBullet()
 {
+    if(!Game.status)
+    return
     let x=shooter.translateCoords.x
     let y=shooter.translateCoords.y-60
-    let bullet={x,y,width:DIMENSION_BULLET,height:DIMENSION_BULLET}
+    let bullet=document.createElement("img")
+    bullet.src="/../images/bullet.png"
+    bullet.id="bullet"
+    document.body.append(bullet)
+    makeTransformable(bullet)
     bullet.score=20
+    bullet.move(x,y)
+    bullet.direction=shooter.rotateVal*Math.PI/180
     bullet.end=function()
     {
         Bullets.delete(this)
+        this.remove()
     }
     Bullets.set(bullet,bullet)
     if(Bullets.size==1)
     {
         window.requestAnimationFrame(painter)
-        Judge.inspectCollisions(Bullets)
     }
+
 }
 
 function painter()
 {
-    g.clearRect(0,0,canvas.width,canvas.height)
     Bullets.forEach(bullet=>
     {
-        if(bullet.y>-80)
+        if(bullet.translateCoords.y>-80)
         {
-            g.drawImage(image,bullet.x,bullet.y)
-            bullet.y-=BULLET_VELO
+            let y=-BULLET_VELO*Math.cos(bullet.direction)
+            let x=BULLET_VELO*Math.sin(bullet.direction)
+            bullet.move(bullet.translateCoords.x+x,bullet.translateCoords.y+y)
+            Judge.inspectCollisions(bullet)
         }
         else
-        Bullets.delete(bullet)
+        bullet.end()
+        
     })
     
-    if(Bullets.size>0)
+    if(Bullets.size>0 && Game.status)
     window.requestAnimationFrame(painter)
 }
 
 
 export default {
     shootBullet,
-    setShooter:(sho)=>shooter=sho,
+    setEnv:(sho,gam)=>{
+        shooter=sho
+        Game=gam
+    }
 
 }

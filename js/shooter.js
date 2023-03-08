@@ -6,7 +6,7 @@ shooter.id="shooter"
 shooter.src="/../images/shooter.png"
 document.body.append(shooter)
 makeTransformable(shooter)
-shooter.velo=25
+shooter.velo=2
 shooter.moveTowards=function(direction,ACCN=1)
 {
     //console.log(direction)
@@ -41,9 +41,14 @@ shooter.moveTowards=function(direction,ACCN=1)
 
 shooter.stop=function()
 {
-    this.velo=25
+    this.velo=2
 }
-shooter.move(window.innerWidth/2-shooter.offsetWidth,window.innerHeight-100)
+
+window.addEventListener("resize",()=>
+{
+    shooter.move(window.innerWidth/2-shooter.clientWidth/2,window.innerHeight-100)
+})
+window.dispatchEvent(new Event("resize"))
 export default shooter
 
 

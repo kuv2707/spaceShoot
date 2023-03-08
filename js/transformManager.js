@@ -3,26 +3,22 @@ export default function addTransformManager(go)
     go.scaleVal={x:1,y:1};
     go.rotateVal=0;
     go.translateCoords={x:0,y:0};
-    go.rotated=false;
     go.updateAppearance=function()
     {
         this.style.transform=
         `translate(${this.translateCoords.x}px,${this.translateCoords.y}px)
         scale(${this.scaleVal.x},${this.scaleVal.y})
-        rotate(${this.rotateVal}deg)
-        
-        `;
+        rotate(${this.rotateVal}deg)`;
     }
     go.rotate=function(value)
     {
-        if(this.rotateVal==value)
-        return;
-        this.rotateVal=value;
-        this.updateAppearance();
-        if(value%360==0)
-        this.rotated=false;
-        else
-        this.rotated=true;
+        let newr=this.rotateVal+value
+        if(newr>-45 && newr<45)
+        {
+            this.rotateVal=newr
+            this.updateAppearance();
+        }
+       
     }
     go.scale=function(valueX,valueY)
     {
