@@ -6,6 +6,7 @@ let scorLab=document.createElement("label")
 scoreBoard.append(scorLab)
 scoreBoard.addScore=function(score)
 {
+    score=Math.round(score)
     scoreBoard.score+=score
     scorLab.innerText=`Score: ${scoreBoard.score}`
 }

@@ -1,10 +1,10 @@
-import makeTransformable from "./js/transformManager.js"
+import makeTransformable from "/js/transformManager.js"
 export default function()
 {
     let tar=[]
-    for(let j=0;j<30;j++)
+    for(let j=0;j<40;j++)
     {
-        for(let i=j;i<15-j;i++)
+        for(let i=j;i<25-j;i++)
         {
             let t=document.createElement("label")
             t.innerText="🧑‍🚀"
@@ -20,9 +20,10 @@ export default function()
                     y:Math.random()*30
                 }
             }
+            t.score=t.variation.ampl.x+t.variation.ampl.y+t.variation.freq.x+t.variation.freq.y
             t.alive=true
             makeTransformable(t)
-            t.move(300+i*50,j*50)
+            t.move(50+i*50,j*30)
             document.body.append(t)
             tar.push(t)
             
@@ -30,8 +31,10 @@ export default function()
 
     }
     let t=0
-    setInterval(()=>
+    let intid=setInterval(()=>
     {
+        if(tar.length==0)
+        clearInterval(intid) 
         tar.forEach(targetElement=>
             {
                 if(targetElement.alive)

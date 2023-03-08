@@ -4,10 +4,16 @@ const Bullets=new Map()
 const BULLET_VELO=15
 let canvas=document.createElement("canvas")
 canvas.id="canv"
-canvas.width=window.innerWidth
-canvas.height=window.innerHeight
+let g;
+window.addEventListener("resize",()=>
+{
+        
+    canvas.width=window.innerWidth
+    canvas.height=window.innerHeight
+    g=canvas.getContext("2d")
+})
+window.dispatchEvent(new Event("resize"))
 document.body.append(canvas)
-let g=canvas.getContext("2d")
 
 const DIMENSION_BULLET=80
 let image=new Image(DIMENSION_BULLET,DIMENSION_BULLET)

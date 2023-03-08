@@ -25,7 +25,7 @@ function inspectCollisions(Bullets)
                         target.alive=false
                         console.log("struck")
                         bullet.end()
-                        Env.scoreBoard.addScore(bullet.score)
+                        Env.scoreBoard.addScore(target.score)
                     }
                 })
             })

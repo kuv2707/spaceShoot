@@ -33,7 +33,9 @@ shooter.moveTowards=function(direction,ACCN=1)
     }
     let newx=this.translateCoords.x+xx*this.velo;
     let newy=this.translateCoords.y+yy*this.velo;
-    shooter.move((newx+window.innerWidth)%window.innerWidth,(newy+window.innerHeight)%window.innerHeight)
+    //shooter.move((newx+window.innerWidth)%window.innerWidth,(newy+window.innerHeight)%window.innerHeight)
+    if(newx<window.innerWidth-shooter.offsetWidth &&  newx>0)
+    shooter.move(newx,newy)
     this.velo+=ACCN
 }
 
