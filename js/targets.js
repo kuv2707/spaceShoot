@@ -1,4 +1,4 @@
-import makeTransformable from "/js/transformManager.js"
+import makeTransformable from "./js/transformManager.js"
 export default function()
 {
     let tar=[]

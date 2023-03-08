@@ -1,8 +1,8 @@
-import shooter from "/js/shooter.js"
-import Bullet from "/js/bullet.js"
-import scoreBoard from "/js/score.js"
-import targets from "/js/targets.js"
-import Judge from "/js/judge.js"
+import shooter from "./js/shooter.js"
+import Bullet from "./js/bullet.js"
+import scoreBoard from "./js/score.js"
+import targets from "./js/targets.js"
+import Judge from "./js/judge.js"
 const Targets=targets()
 Judge.setEnv({
     Targets,
