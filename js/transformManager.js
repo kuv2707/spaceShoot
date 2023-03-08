@@ -4,7 +4,6 @@ export default function addTransformManager(go)
     go.rotateVal=0;
     go.translateCoords={x:0,y:0};
     go.rotated=false;
-    go.velo=5
     go.updateAppearance=function()
     {
         this.style.transform=
@@ -40,37 +39,5 @@ export default function addTransformManager(go)
         this.translateCoords.y=yy;
         this.updateAppearance();
     }
-    go.moveTowards=function(direction,ACCN=1)
-    {
-        //console.log(direction)
-        let xx,yy;
-        switch(direction)
-        {
-            case "down":
-                yy=1
-                xx=0
-                break
-            case "up":
-                yy=-1
-                xx=0
-                break
-            case "right":
-                xx=1
-                yy=0
-                break
-            case "left":
-                xx=-1
-                yy=0
-                break
-            
-        }
-        this.translateCoords.x+=xx*this.velo;
-        this.translateCoords.y+=yy*this.velo;
-        this.velo+=ACCN
-        this.updateAppearance();
-    }
-    go.stop=function()
-    {
-        this.velo=5
-    }
+    
 }
