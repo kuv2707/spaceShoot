@@ -1,6 +1,7 @@
 *
 {
     user-select: none;
+    border:none;
 }
 body
 {
@@ -79,8 +80,10 @@ body
     
     /* margin-top:30vh; */
     border-radius: 30px;
-    border:1px solid rgb(253, 143, 143);
-    box-shadow:0 0 40px red,0 0 400px red inset;
+    box-shadow:0 0 15px rgb(195, 119, 119),
+    0 0 15px rgb(195, 119, 119) inset,
+    0 0 40px red,
+    0 0 400px red inset;
 }
 #msgHead
 {
