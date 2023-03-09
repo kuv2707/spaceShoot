@@ -1,11 +1,9 @@
-import makeTransformable from "/js/transformManager.js"
 const BULLET_VELO=15
 
-export default function(Game)
+export default function(Game,shooter)
 {
     
     let exp={}
-    let shooter=Game.shooter
     exp.Bullets=new Map()
     exp.shootBullet=function()
     {
@@ -18,7 +16,7 @@ export default function(Game)
         bullet.id="bullet"
         bullet.strength=1
         document.body.append(bullet)
-        makeTransformable(bullet)
+        Game.makeTransformable(bullet)
         bullet.rotate(shooter.rotateVal)
         bullet.score=20
         bullet.move(x,y)
@@ -60,7 +58,7 @@ export default function(Game)
                             targetArr.splice(i,1)
                             target.alive=false
                             bullet.end()
-                            Game.scoreBoard.addScore(target.hitPts)
+                            Game.scoreBoard.addScore(target.orig_hitPts)
                         }
                         
                     }

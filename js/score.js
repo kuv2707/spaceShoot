@@ -12,6 +12,7 @@ health.id="health"
 scoreBoard.append(health)
 scoreBoard.addScore=function(score)
 {
+    console.log(score)
     score=Math.round(score)
     scoreBoard.score+=score
     scorLab.innerText=`Score: ${scoreBoard.score}`

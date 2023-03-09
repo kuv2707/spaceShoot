@@ -1,5 +1,5 @@
-import makeTransformable from "/js/transformManager.js"
-const enemies=[{face:"👽",hitp:15},{face:"👾",hitp:1}]
+
+const enemies=[{face:"👽",hitp:15},{face:"👾",hitp:10}]
 export default function(scoreBoard,Game)
 {
     const exp={}
@@ -11,7 +11,7 @@ export default function(scoreBoard,Game)
         {
             if(Game.status=="ended")
             return clearInterval(id)
-            for(let i=0;i<2;i++)
+            for(let i=0;i<5;i++)
             {
                 let t=document.createElement("label")
                 let enem=enemies[Math.floor(Math.random()*enemies.length)]
@@ -21,7 +21,8 @@ export default function(scoreBoard,Game)
                 t.speed=15*Math.random()
                 t.alive=true
                 t.hitPts=enem.hitp
-                makeTransformable(t)
+                t.orig_hitPts=t.hitPts
+                Game.makeTransformable(t)
                 t.move(100+(window.innerWidth-250)*Math.random(),0)
                 document.body.append(t)
                 exp.targetArr.push(t)

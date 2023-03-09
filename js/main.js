@@ -1,22 +1,23 @@
-import shooter from "/js/shooter.js"
-import bullet from "/js/bullet.js"
-import scoreBoard from "/js/score.js"
-import targets from "/js/targets.js"
-import MessageShower from "/js/MessageShower.js"
-
+import shooterf from "./../js/shooter.js"
+import bullet from "./../js/bullet.js"
+import scoreBoard from "./../js/score.js"
+import targets from "./../js/targets.js"
+import MessageShower from "./../js/MessageShower.js"
+import makeTransformable from "./../js/transformManager.js"
 
 const Game={
     status:"notStarted",
     scoreBoard,
-    shooter,
+    makeTransformable,
     end:function()
     {
         this.status="ended"
         MessageShower.showMessage("Game Over")
     },
 }
+const shooter=shooterf(Game)
 const Targets=targets(scoreBoard,Game)
-const Bullets=bullet(Game)
+const Bullets=bullet(Game,shooter)
 Game.start=function()
 {
     this.status="inProgress"
@@ -89,10 +90,12 @@ document.addEventListener("keypress",function(e)//for gamestart
 {
     if(e.key==" ")
     {
-        if(Game.status="notStarted")
+        if(Game.status=="notStarted")
         Game.start()
+        else
+        window.location.reload()
     }
-},)
+})
 document.addEventListener("pointerdown",(e)=>e.button!=2?Bullets.shootBullet(shooter.translateCoords):null)
 
 
