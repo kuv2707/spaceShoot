@@ -12,7 +12,7 @@ export default function(Game,shooter)
         let x=shooter.translateCoords.x
         let y=shooter.translateCoords.y
         let bullet=document.createElement("img")
-        bullet.src="/../images/bullet.png"
+        bullet.src=window.location.href+"images/bullet.png"
         bullet.id="bullet"
         bullet.strength=1
         document.body.append(bullet)
