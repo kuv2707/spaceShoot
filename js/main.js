@@ -2,7 +2,7 @@ import shooterf from          "./../js/shooter.js"
 import bullet from            "./../js/bullet.js"
 import scoreBoard from        "./../js/score.js"
 import targets from           "./../js/targets.js"
-import MessageShower from     "./../js/MessageShower.js"
+import MessageShower from     "./../js/messageShower.js"
 import makeTransformable from "./../js/transformManager.js"
 
 const Game={
