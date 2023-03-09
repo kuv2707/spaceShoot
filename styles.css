@@ -6,7 +6,7 @@ body
 {
     background-color: black;
     margin:0;
-    background:url("/images/backg.jpg");
+    background:url("./../images/backg.jpg");
     background-size:100vw 100vh;
     overflow: hidden;
 }
@@ -45,7 +45,7 @@ body
 }
 @font-face { 
     font-family: 'Space';
-    src: url('/fonts/scoreFont.woff') ;
+    src: url('./../fonts/scoreFont.woff') ;
     font-weight: normal;
     font-style: normal;
   }
