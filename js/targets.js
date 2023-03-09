@@ -1,4 +1,4 @@
-
+const MAX_SPD=10
 const enemies=[{face:"👽",hitp:15},{face:"👾",hitp:10}]
 export default function(scoreBoard,Game)
 {
@@ -18,7 +18,7 @@ export default function(scoreBoard,Game)
                 t.innerText=enem.face
                 t.src="/../images/aliens.png"
                 t.className="targets"
-                t.speed=15*Math.random()
+                t.speed=MAX_SPD*Math.random()
                 t.alive=true
                 t.hitPts=enem.hitp
                 t.orig_hitPts=t.hitPts

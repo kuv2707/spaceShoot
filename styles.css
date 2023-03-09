@@ -65,7 +65,7 @@ body
     filter:drop-shadow(0 0 10px rgb(239, 159, 159))
 }
   
-#messageShower
+#msgShower
 {
     position: absolute;
     width:100%;
@@ -76,9 +76,17 @@ body
     text-align: center;
     font-family: Space;
     color:rgb(253, 255, 105);
-    font-size:180px;
-    margin-top:30vh;
+    
+    /* margin-top:30vh; */
     border-radius: 30px;
     border:1px solid rgb(253, 143, 143);
     box-shadow:0 0 40px red,0 0 400px red inset;
+}
+#msgHead
+{
+    font-size:150px;
+}
+#msgBody
+{
+    font-size:80px;
 }

@@ -12,7 +12,7 @@ const Game={
     end:function()
     {
         this.status="ended"
-        MessageShower.showMessage("Game Over")
+        MessageShower.showMessage("Game Over","Press <u>space</u> to restart")
     },
 }
 const shooter=shooterf(Game)
@@ -33,7 +33,7 @@ Game.start=function()
     loop()
 }
 
-MessageShower.showMessage(`Press <u>space</u> to start!`)
+MessageShower.showMessage("Ready?",`Press <u>space</u> to start!`)
 
 
 
