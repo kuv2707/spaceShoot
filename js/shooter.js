@@ -3,7 +3,7 @@ export default function(Game)
 
     let shooter=document.createElement("img")
     shooter.id="shooter"
-    shooter.src="./images/shooter.png"
+    shooter.src="./../images/shooter.png"
     document.body.append(shooter)
     Game.makeTransformable(shooter)
     shooter.velo={x:2,y:2}
