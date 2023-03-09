@@ -1,59 +1,66 @@
 import makeTransformable from "/js/transformManager.js"
+const enemies=[{face:"👽",hitp:15},{face:"👾",hitp:1}]
 export default function(scoreBoard,Game)
 {
-    let tar=[]
-    document.addEventListener("keypress",function(e)
+    const exp={}
+    exp.targetArr=[]
+    exp.targetShowerStart=()=>
     {
-        if(e.key==" ")
-        {
-            let id=setInterval(()=>
-            {
-                if(Game.status==false)
-                return clearInterval(id)
-                for(let i=0;i<2;i++)
-                {
-                    let t=document.createElement("label")
-                    t.innerText="🧑‍🚀"
-                    t.src="/../images/aliens.png"
-                    t.className="targets"
-                    t.velocity={x:0,y:10*Math.random()}
-                    t.score=t.velocity.y
-                    t.alive=true
-                    makeTransformable(t)
-                    t.move(100+(window.innerWidth-250)*Math.random(),0)
-                    document.body.append(t)
-                    tar.push(t)
-                }
         
-            },250)
-        }
-    })
-    
-    let ptr=()=>
-    {
-        for(let i=tar.length-1;i>=0;i--)
+        let id=setInterval(()=>
+        {
+            if(Game.status=="ended")
+            return clearInterval(id)
+            for(let i=0;i<2;i++)
             {
-                let targetElement=tar[i]
-                if(!targetElement.alive)
-                return
-                targetElement.move(
-                    targetElement.translateCoords.x+targetElement.velocity.x,
-                    targetElement.translateCoords.y+targetElement.velocity.y)
-
-                    if(targetElement.translateCoords.y>window.innerHeight)
-                    {
-                        //gameOver()
-                        targetElement.remove()
-                        tar.splice(i,1)
-                        scoreBoard.addMiss()
-                        if(scoreBoard.misses>50)
-                        Game.status=false
-                    }
+                let t=document.createElement("label")
+                let enem=enemies[Math.floor(Math.random()*enemies.length)]
+                t.innerText=enem.face
+                t.src="/../images/aliens.png"
+                t.className="targets"
+                t.speed=15*Math.random()
+                t.alive=true
+                t.hitPts=enem.hitp
+                makeTransformable(t)
+                t.move(100+(window.innerWidth-250)*Math.random(),0)
+                document.body.append(t)
+                exp.targetArr.push(t)
             }
-            if(Game.status)
-            window.requestAnimationFrame(ptr)
+        },250)
     }
-    window.requestAnimationFrame(ptr)
-    return tar
+    exp.targetInspector=function()
+    {
+        for(let i=exp.targetArr.length-1;i>=0;i--)
+        {
+            let targetElement=this.targetArr[i]
+            if(!targetElement.alive)
+            return
+            let velocity=modulus({x:(shooter.translateCoords.x-targetElement.translateCoords.x),y:(shooter.translateCoords.y-targetElement.translateCoords.y)},targetElement.speed)
+            targetElement.move(
+                targetElement.translateCoords.x+velocity.x,
+                targetElement.translateCoords.y+velocity.y)
+
+                if(distsq(targetElement.translateCoords,shooter.translateCoords)<40)
+                {
+                    targetElement.remove()
+                    this.targetArr.splice(i,1)
+                    scoreBoard.reduceHealth(targetElement.hitPts)
+                    if(scoreBoard.health<=0)
+                    Game.end()
+                }
+        }
+    }
+    return exp
 }
 
+function modulus({x,y},s)
+{
+    let mod=Math.sqrt(Math.pow(x,2)+Math.pow(y,2))
+    return{
+    x:(x*s/mod),y:(y*s/mod)
+    }
+}
+function distsq(v1,v2)
+{
+    return Math.pow(v1.x-v2.x,2)+Math.pow(v1.y-v2.y,2)
+}

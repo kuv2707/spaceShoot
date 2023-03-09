@@ -1,62 +1,78 @@
-import Judge from "/js/judge.js"
 import makeTransformable from "/js/transformManager.js"
-const Bullets=new Map()
 const BULLET_VELO=15
 
-let shooter,Game;
-function shootBullet()
+export default function(Game)
 {
-    if(!Game.status)
-    return
-    let x=shooter.translateCoords.x
-    let y=shooter.translateCoords.y-60
-    let bullet=document.createElement("img")
-    bullet.src="/../images/bullet.png"
-    bullet.id="bullet"
-    document.body.append(bullet)
-    makeTransformable(bullet)
-    bullet.score=20
-    bullet.move(x,y)
-    bullet.direction=shooter.rotateVal*Math.PI/180
-    bullet.end=function()
-    {
-        Bullets.delete(this)
-        this.remove()
-    }
-    Bullets.set(bullet,bullet)
-    if(Bullets.size==1)
-    {
-        window.requestAnimationFrame(painter)
-    }
-
-}
-
-function painter()
-{
-    Bullets.forEach(bullet=>
-    {
-        if(bullet.translateCoords.y>-80)
-        {
-            let y=-BULLET_VELO*Math.cos(bullet.direction)
-            let x=BULLET_VELO*Math.sin(bullet.direction)
-            bullet.move(bullet.translateCoords.x+x,bullet.translateCoords.y+y)
-            Judge.inspectCollisions(bullet)
-        }
-        else
-        bullet.end()
-        
-    })
     
-    if(Bullets.size>0 && Game.status)
-    window.requestAnimationFrame(painter)
-}
+    let exp={}
+    let shooter=Game.shooter
+    exp.Bullets=new Map()
+    exp.shootBullet=function()
+    {
+        if(Game.status!="inProgress")
+        return
+        let x=shooter.translateCoords.x
+        let y=shooter.translateCoords.y
+        let bullet=document.createElement("img")
+        bullet.src="/../images/bullet.png"
+        bullet.id="bullet"
+        bullet.strength=1
+        document.body.append(bullet)
+        makeTransformable(bullet)
+        bullet.rotate(shooter.rotateVal)
+        bullet.score=20
+        bullet.move(x,y)
+        bullet.direction=shooter.rotateVal*Math.PI/180
+        bullet.end=function()
+        {
+            exp.Bullets.delete(this)
+            this.remove()
+        }
+        this.Bullets.set(bullet,bullet)
 
-
-export default {
-    shootBullet,
-    setEnv:(sho,gam)=>{
-        shooter=sho
-        Game=gam
     }
 
+    exp.collisionInspector=function(targetArr)
+    {
+        this.Bullets.forEach(bullet=>
+        {
+            if(bullet.translateCoords.y>-80)
+            {
+                let y=-BULLET_VELO*Math.cos(bullet.direction)
+                let x=BULLET_VELO*Math.sin(bullet.direction)
+                bullet.move(bullet.translateCoords.x+x,bullet.translateCoords.y+y)
+                for(let i=targetArr.length-1;i>=0;i--)
+                {
+                    
+                    let target=targetArr[i]
+                    let tco=target.translateCoords
+                    let bulloc={
+                        x:(bullet.translateCoords.x)+(bullet.offsetWidth)/2,
+                        y:(bullet.translateCoords.y)+(bullet.offsetHeight)/2,
+                    }
+                    if(bulloc.x>tco.x &&  bulloc.x<(tco.x+target.offsetWidth)
+                    && bulloc.y>tco.y &&  bulloc.y<(tco.y+target.offsetHeight))
+                    {
+                        target.hitPts-=bullet.strength
+                        if(target.hitPts<=0)
+                        {
+                            target.remove()
+                            targetArr.splice(i,1)
+                            target.alive=false
+                            bullet.end()
+                            Game.scoreBoard.addScore(target.hitPts)
+                        }
+                        
+                    }
+                }
+            }
+            else
+            bullet.end()
+            
+        })
+    }
+    return exp
 }
+
+
+

@@ -12,12 +12,9 @@ export default function addTransformManager(go)
     }
     go.rotate=function(value)
     {
-        let newr=this.rotateVal+value
-        if(newr>-45 && newr<45)
-        {
-            this.rotateVal=newr
-            this.updateAppearance();
-        }
+        let newr=(this.rotateVal+value)%360
+        this.rotateVal=newr
+        this.updateAppearance();
        
     }
     go.scale=function(valueX,valueY)

@@ -6,7 +6,7 @@ shooter.id="shooter"
 shooter.src="/../images/shooter.png"
 document.body.append(shooter)
 makeTransformable(shooter)
-shooter.velo=2
+shooter.velo={x:2,y:2}
 shooter.moveTowards=function(direction,ACCN=1)
 {
     //console.log(direction)
@@ -31,17 +31,18 @@ shooter.moveTowards=function(direction,ACCN=1)
             break
         
     }
-    let newx=this.translateCoords.x+xx*this.velo;
-    let newy=this.translateCoords.y+yy*this.velo;
+    let newx=this.translateCoords.x+xx*this.velo.x;
+    let newy=this.translateCoords.y+yy*this.velo.y;
     //shooter.move((newx+window.innerWidth)%window.innerWidth,(newy+window.innerHeight)%window.innerHeight)
-    if(newx<window.innerWidth-shooter.offsetWidth &&  newx>0)
+    if(newx<window.innerWidth-shooter.offsetWidth &&  newx>0  && newy>0  && newy<window.innerHeight-shooter.offsetHeight)
     shooter.move(newx,newy)
-    this.velo+=ACCN
+    this.velo.x+=ACCN
+    this.velo.y+=ACCN
 }
 
 shooter.stop=function()
 {
-    this.velo=2
+    this.velo={x:2,y:2}
 }
 
 window.addEventListener("resize",()=>
