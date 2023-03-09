@@ -13,4 +13,3 @@ export default {
         msgdiv.style.opacity="0"
     }
 } 
-//window.msgdiv=msgdiv

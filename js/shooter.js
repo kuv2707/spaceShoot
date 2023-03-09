@@ -33,7 +33,6 @@ export default function(Game)
         }
         let newx=this.translateCoords.x+xx*this.velo.x;
         let newy=this.translateCoords.y+yy*this.velo.y;
-        //shooter.move((newx+window.innerWidth)%window.innerWidth,(newy+window.innerHeight)%window.innerHeight)
         if(newx<window.innerWidth-shooter.offsetWidth &&  newx>0  && newy>0  && newy<window.innerHeight-shooter.offsetHeight)
         shooter.move(newx,newy)
         this.velo.x+=ACCN
