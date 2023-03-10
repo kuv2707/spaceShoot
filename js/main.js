@@ -114,13 +114,16 @@ document.addEventListener("keypress",function(e)//for gamestart
         window.location.reload()
     }
 })
-
-if(window.innerWidth/window.innerHeight<1)
+document.onload=function()
 {
-    document.addEventListener("pointerdown",()=>
+    if(window.innerWidth/window.innerHeight<1)
     {
-        if(Game.status=="notStarted")
-            Game.start()
-            
-    },{once:true})
+        document.addEventListener("pointerdown",()=>
+        {
+            if(Game.status=="notStarted")
+                Game.start()
+                
+        },{once:true})
+    }
+
 }
