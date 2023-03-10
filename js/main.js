@@ -34,7 +34,7 @@ Game.start=function()
     loop()
 }
 
-MessageShower.showMessage("Ready?",`Press <u>space</u> to start!`)
+MessageShower.showMessage("Ready?",`<u>Press space</u>/<u>tap</u> to start!`)
 
 
 
