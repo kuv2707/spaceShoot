@@ -124,3 +124,6 @@ if(window.innerWidth/window.innerHeight<1)
     },{once:true})
 }
 
+
+
+window.dispatchEvent(new Event("resize"))

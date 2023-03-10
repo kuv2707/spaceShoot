@@ -48,7 +48,7 @@ export default class TargetSpawner
     }
       
 }
-function makeTarget(Game,targetArr,x=100+(window.innerWidth-250)*Math.random(),y=0)
+function makeTarget(Game,targetArr,x=(window.innerWidth)*Math.random(),y=0)
 {
     let t=document.createElement("label")
     t.innerText=ENEMIES[Math.floor(Math.random()*ENEMIES.length)]
@@ -56,8 +56,8 @@ function makeTarget(Game,targetArr,x=100+(window.innerWidth-250)*Math.random(),y
     t.style.fontSize=t.hitPts+"px"
     t.className="targets"
     t.speed=MAX_SPD*Math.random()
-    t.velocity={x:0.5+Math.random(),
-                y:+Math.random()}
+    t.velocity={x:0,
+                y:0}
     window.makeTransformable(t)
     t.move(x,y)
     t.Game=Game

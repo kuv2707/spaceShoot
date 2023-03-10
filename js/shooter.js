@@ -48,7 +48,7 @@ export default function(Game)
     {
         shooter.move(window.innerWidth/2-shooter.clientWidth/2,window.innerHeight-100)
     })
-    window.dispatchEvent(new Event("resize"))
+    
     return shooter
 }
 

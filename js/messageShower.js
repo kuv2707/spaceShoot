@@ -6,7 +6,7 @@ head.id="msgHead"
 
 let bdy=document.createElement("label")
 bdy.id="msgBody"
-
+window.makeTransformable(msgdiv)
 msgdiv.append(head,bdy)
 document.body.append(msgdiv)
 export default {
@@ -21,3 +21,7 @@ export default {
         msgdiv.style.opacity="0"
     }
 } 
+window.addEventListener("resize",()=>
+{
+    msgdiv.move(window.innerWidth/2-msgdiv.clientWidth/2,window.innerHeight/2-msgdiv.clientHeight/2)
+})
