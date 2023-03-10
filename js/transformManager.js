@@ -34,3 +34,4 @@ export default function addTransformManager(go)
     }
     
 }
+window.makeTransformable=addTransformManager

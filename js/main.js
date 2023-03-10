@@ -1,9 +1,9 @@
+import _ from "./../js/transformManager.js"
 import shooterf from          "./../js/shooter.js"
 import bullet from            "./../js/bullet.js"
 import scoreBoard from        "./../js/score.js"
-import targets from           "./../js/targets.js"
+import TargetSpawner from           "./../js/targets.js"
 import MessageShower from     "./../js/messageShower.js"
-import makeTransformable from "./../js/transformManager.js"
 
 const Game={
     status:"notStarted",
@@ -16,16 +16,17 @@ const Game={
     },
 }
 const shooter=shooterf(Game)
-const Targets=targets(scoreBoard,Game)
+shooter.scoreBoard=scoreBoard
+const targetspawn=new TargetSpawner(Game)
 const Bullets=bullet(Game,shooter)
 Game.start=function()
 {
     this.status="inProgress"
-    Targets.targetShowerStart()
+    targetspawn.targetShowerStart()
     let loop=function()
     {
-        Targets.targetInspector()
-        Bullets.collisionInspector(Targets.targetArr)
+        Bullets.collisionInspector(targetspawn.targetArr)
+        targetspawn.targetInspector()
         if(Game.status=="inProgress")
         window.requestAnimationFrame(loop)
     }
@@ -62,13 +63,14 @@ let inputId=setInterval(function()
                 shooter.moveTowards("right")
                 break
             case "Numpad0":
+            case "leftmbutton":
                 Bullets.shootBullet()
                 break
             case "Numpad6":
-                shooter.rotate(1)
+                shooter.rotate(1.5)
                 break
             case "Numpad4":
-                shooter.rotate(-1)
+                shooter.rotate(-1.5)
                 break
             default:
                 //console.log(code)
@@ -86,6 +88,22 @@ document.addEventListener("keyup",(e)=>
     if(!(Keys.get("ArrowLeft")||Keys.get("ArrowRight")))
     shooter.stop()
 })
+document.addEventListener("pointerdown",(e)=>
+{
+    Keys.set("leftmbutton",true)
+})
+document.addEventListener("pointerup",(e)=>
+{
+    Keys.set("leftmbutton",false)
+})
+document.addEventListener("pointermove",(e)=>
+{
+    shooter.move(e.clientX-shooter.offsetWidth/2,e.clientY-shooter.offsetHeight/2)
+})
+document.addEventListener("scroll",(e)=>
+{
+    console.log(e)
+})
 document.addEventListener("keypress",function(e)//for gamestart
 {
     if(e.key==" ")
@@ -96,6 +114,13 @@ document.addEventListener("keypress",function(e)//for gamestart
         window.location.reload()
     }
 })
-document.addEventListener("pointerdown",(e)=>e.button!=2?Bullets.shootBullet(shooter.translateCoords):null)
 
-
+if(window.innerWidth/window.innerHeight<1)
+{
+    document.addEventListener("pointerdown",()=>
+    {
+        if(Game.status=="notStarted")
+            Game.start()
+            
+    },{once:true})
+}

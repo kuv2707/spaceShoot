@@ -1,42 +1,36 @@
-const MAX_SPD=10
-const enemies=[{face:"👽",hitp:15},{face:"👾",hitp:10}]
-export default function(scoreBoard,Game)
+const MAX_SPD=5
+const ENEMIES=["👽","👾"]
+export default class TargetSpawner
 {
-    const exp={}
-    exp.targetArr=[]
-    exp.targetShowerStart=()=>
+    constructor(Game)
     {
+        this.targetArr=[]
+        this.Game=Game
         
+    }
+    targetShowerStart()
+    {
+        let self=this
         let id=setInterval(()=>
         {
-            if(Game.status=="ended")
+            if(self.Game.status=="ended")
             return clearInterval(id)
-            for(let i=0;i<5;i++)
+            for(let i=0;i<2;i++)
             {
-                let t=document.createElement("label")
-                let enem=enemies[Math.floor(Math.random()*enemies.length)]
-                t.innerText=enem.face
-                t.src="/../images/aliens.png"
-                t.className="targets"
-                t.speed=MAX_SPD*Math.random()
-                t.alive=true
-                t.hitPts=enem.hitp
-                t.orig_hitPts=t.hitPts
-                Game.makeTransformable(t)
-                t.move(100+(window.innerWidth-250)*Math.random(),0)
-                document.body.append(t)
-                exp.targetArr.push(t)
+                let targ=makeTarget(self.Game,self.targetArr);
+                document.body.append(targ)
+                self.targetArr.push(targ)
             }
-        },250)
+        },1000)
     }
-    exp.targetInspector=function()
+    targetInspector()
     {
-        for(let i=exp.targetArr.length-1;i>=0;i--)
+        for(let i=this.targetArr.length-1;i>=0;i--)
         {
             let targetElement=this.targetArr[i]
-            if(!targetElement.alive)
-            return
             let velocity=modulus({x:(shooter.translateCoords.x-targetElement.translateCoords.x),y:(shooter.translateCoords.y-targetElement.translateCoords.y)},targetElement.speed)
+            velocity.x+=targetElement.velocity.x
+            velocity.y+=targetElement.velocity.y
             targetElement.move(
                 targetElement.translateCoords.x+velocity.x,
                 targetElement.translateCoords.y+velocity.y)
@@ -45,15 +39,52 @@ export default function(scoreBoard,Game)
                 {
                     targetElement.remove()
                     this.targetArr.splice(i,1)
-                    scoreBoard.reduceHealth(targetElement.hitPts)
+                    scoreBoard.reduceHealth(targetElement.hitPts/10)
                     if(scoreBoard.health<=0)
-                    Game.end()
+                    this.Game.end()
                 }
         }
     }
-    return exp
+      
 }
+function makeTarget(Game,targetArr,x=100+(window.innerWidth-250)*Math.random(),y=0)
+{
+    let t=document.createElement("label")
+    t.innerText=ENEMIES[Math.floor(Math.random()*ENEMIES.length)]
+    t.hitPts=40+Math.random()*80
+    t.style.fontSize=t.hitPts+"px"
+    t.className="targets"
+    t.speed=MAX_SPD*Math.random()
+    t.velocity={x:t.speed*Math.cos(Math.random()*Math.PI),
+                y:t.speed*Math.sin(Math.random()*Math.PI)}
+    window.makeTransformable(t)
+    t.move(x,y)
+    t.Game=Game
+    t.containerArray=targetArr
+    t.demote=function(bulletstrength)
+    {
+        this.hitPts-=bulletstrength
+        this.style.fontSize=t.hitPts+"px"
+        shooter.scoreBoard.addScore(bulletstrength)
+        if(this.hitPts<=40)
+        {
+            if(this.innerText==ENEMIES)
+            {
+                let e1=makeTarget(this.translateCoords.x,this.translateCoords.y)
+                let e2=makeTarget(this.translateCoords.x,this.translateCoords.y)
+                //this.containerArray.push(e1)
+                //this.containerArray.push(e2)
+                //document.body.append(e1,e2)
+            }
+            else
+            this.remove()
 
+            this.containerArray.splice(this.containerArray.indexOf(this),1)
+            
+        }
+    }
+    return t
+}
 function modulus({x,y},s)
 {
     let mod=Math.sqrt(Math.pow(x,2)+Math.pow(y,2))

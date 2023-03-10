@@ -5,7 +5,7 @@ export default function(Game)
     shooter.id="shooter"
     shooter.src=window.location.href+"images/shooter.png"
     document.body.append(shooter)
-    Game.makeTransformable(shooter)
+    window.makeTransformable(shooter)
     shooter.velo={x:2,y:2}
     shooter.moveTowards=function(direction,ACCN=1)
     {

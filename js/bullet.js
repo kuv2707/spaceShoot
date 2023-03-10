@@ -14,9 +14,9 @@ export default function(Game,shooter)
         let bullet=document.createElement("img")
         bullet.src=window.location.href+"images/bullet.png"
         bullet.id="bullet"
-        bullet.strength=1
+        bullet.strength=1+Math.random()*4
         document.body.append(bullet)
-        Game.makeTransformable(bullet)
+        window.makeTransformable(bullet)
         bullet.rotate(shooter.rotateVal)
         bullet.score=20
         bullet.move(x,y)
@@ -51,15 +51,9 @@ export default function(Game,shooter)
                     if(bulloc.x>tco.x &&  bulloc.x<(tco.x+target.offsetWidth)
                     && bulloc.y>tco.y &&  bulloc.y<(tco.y+target.offsetHeight))
                     {
-                        target.hitPts-=bullet.strength
-                        if(target.hitPts<=0)
-                        {
-                            target.remove()
-                            targetArr.splice(i,1)
-                            target.alive=false
-                            bullet.end()
-                            Game.scoreBoard.addScore(target.orig_hitPts)
-                        }
+                        target.demote(bullet.strength)
+                        bullet.end()
+                        
                         
                     }
                 }
