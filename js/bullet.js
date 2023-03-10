@@ -14,7 +14,7 @@ export default function(Game,shooter)
         let bullet=document.createElement("img")
         bullet.src=window.location.href+"images/bullet.png"
         bullet.id="bullet"
-        bullet.strength=1+Math.random()*4
+        bullet.strength=1+Math.random()*9
         document.body.append(bullet)
         window.makeTransformable(bullet)
         bullet.rotate(shooter.rotateVal)

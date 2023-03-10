@@ -21,7 +21,7 @@ export default class TargetSpawner
                 document.body.append(targ)
                 self.targetArr.push(targ)
             }
-        },1000)
+        },500)
     }
     targetInspector()
     {
@@ -35,7 +35,8 @@ export default class TargetSpawner
                 targetElement.translateCoords.x+velocity.x,
                 targetElement.translateCoords.y+velocity.y)
 
-                if(distsq(targetElement.translateCoords,shooter.translateCoords)<40)
+                if(distsq(targetElement.translateCoords,shooter.translateCoords)<40
+                || targetElement.translateCoords.y<-100 || targetElement.translateCoords.y>window.innerHeight+100)
                 {
                     targetElement.remove()
                     this.targetArr.splice(i,1)
@@ -55,8 +56,8 @@ function makeTarget(Game,targetArr,x=100+(window.innerWidth-250)*Math.random(),y
     t.style.fontSize=t.hitPts+"px"
     t.className="targets"
     t.speed=MAX_SPD*Math.random()
-    t.velocity={x:t.speed*Math.cos(Math.random()*Math.PI),
-                y:t.speed*Math.sin(Math.random()*Math.PI)}
+    t.velocity={x:0.5+Math.random(),
+                y:+Math.random()}
     window.makeTransformable(t)
     t.move(x,y)
     t.Game=Game

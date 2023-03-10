@@ -12,7 +12,7 @@ const Game={
     end:function()
     {
         this.status="ended"
-        MessageShower.showMessage("Game Over","Press <u>space</u> to restart")
+        MessageShower.showMessage("Game Over","Press <u>space</u>/<u>reload</u> to restart")
     },
 }
 const shooter=shooterf(Game)
@@ -114,16 +114,13 @@ document.addEventListener("keypress",function(e)//for gamestart
         window.location.reload()
     }
 })
-document.onload=function()
+if(window.innerWidth/window.innerHeight<1)
 {
-    if(window.innerWidth/window.innerHeight<1)
+    document.addEventListener("pointerdown",()=>
     {
-        document.addEventListener("pointerdown",()=>
-        {
-            if(Game.status=="notStarted")
-                Game.start()
-                
-        },{once:true})
-    }
-
+        if(Game.status=="notStarted")
+            Game.start()
+            
+    },{once:true})
 }
+

@@ -88,9 +88,9 @@ body
 }
 #msgHead
 {
-    font-size:150px;
+    font-size:min(20vw,150px);
 }
 #msgBody
 {
-    font-size:80px;
+    font-size:min(12vw,80px);
 }
