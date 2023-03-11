@@ -100,9 +100,10 @@ document.addEventListener("pointermove",(e)=>
 {
     shooter.move(e.clientX-shooter.offsetWidth/2,e.clientY-shooter.offsetHeight/2)
 })
-document.addEventListener("scroll",(e)=>
+window.addEventListener("wheel",(e)=>
 {
     console.log(e)
+    shooter.rotate(e.deltaY/10)
 })
 document.addEventListener("keypress",function(e)//for gamestart
 {
