@@ -13,7 +13,7 @@ export default class TargetSpawner
         let self=this
         let id=setInterval(()=>
         {
-            if(self.targetArr.length>100)
+            if(self.targetArr.length>=100)
             return
             if(self.Game.status=="ended")
             return clearInterval(id)
@@ -38,7 +38,7 @@ export default class TargetSpawner
                 targetElement.translateCoords.y+velocity.y)
 
                 if(distsq(targetElement.translateCoords,shooter.translateCoords)<40
-                || targetElement.translateCoords.y<-100 || targetElement.translateCoords.y>window.innerHeight+100)
+                || targetElement.translateCoords.y<=-100 || targetElement.translateCoords.y>window.innerHeight+100)
                 {
                     targetElement.remove()
                     this.targetArr.splice(i,1)

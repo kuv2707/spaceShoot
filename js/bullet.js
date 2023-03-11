@@ -34,7 +34,7 @@ export default class BulletController
     {
         this.Bullets.forEach(bullet=>
         {
-            if(bullet.translateCoords.y>-80)
+            if(bullet.translateCoords.y>-80 && bullet.translateCoords.y<window.innerHeight+80 && bullet.translateCoords.x>0 && bullet.translateCoords.x<window.innerWidth+80)
             {
                 let y=-BULLET_VELO*Math.cos(bullet.direction)
                 let x=BULLET_VELO*Math.sin(bullet.direction)
