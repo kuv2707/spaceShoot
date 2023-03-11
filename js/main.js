@@ -8,15 +8,13 @@ import MessageShower from     "./../js/messageShower.js"
 const Game={
     status:"notStarted",
     scoreBoard,
-    makeTransformable,
     end:function()
     {
         this.status="ended"
         MessageShower.showMessage("Game Over","Press <u>space</u>/<u>reload</u> to restart")
     },
 }
-const shooter=shooterf(Game)
-shooter.scoreBoard=scoreBoard
+const shooter=shooterf(scoreBoard)
 const targetspawn=new TargetSpawner(Game)
 const bullets=new BulletController(Game,shooter)
 Game.start=function()
@@ -85,27 +83,8 @@ let inputId=setInterval(function()
         
         switch(code)
         {
-            case "ArrowDown":
-                shooter.moveTowards("down")
-                break
-            case "ArrowUp":
-                shooter.moveTowards("up")
-                break
-            case "ArrowLeft":
-                shooter.moveTowards("left")
-                break
-            case "ArrowRight":
-                shooter.moveTowards("right")
-                break
-            case "Numpad0":
             case "leftmbutton":
                 bullets.shootBullet()
-                break
-            case "Numpad6":
-                shooter.rotate(1.5)
-                break
-            case "Numpad4":
-                shooter.rotate(-1.5)
                 break
             default:
                 //console.log(code)

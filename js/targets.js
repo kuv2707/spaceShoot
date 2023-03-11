@@ -1,5 +1,5 @@
 const MAX_SPD=5
-const ENEMIES=["👽","👾"]
+const ENEMIES=["🤖","👽","👾"]
 export default class TargetSpawner
 {
     constructor(Game)
@@ -72,17 +72,7 @@ function makeTarget(Game,targetArr,x=(window.innerWidth)*Math.random(),y=0)
         shooter.scoreBoard.addScore(bulletstrength)
         if(this.hitPts<=40)
         {
-            if(this.innerText==ENEMIES)
-            {
-                let e1=makeTarget(this.translateCoords.x,this.translateCoords.y)
-                let e2=makeTarget(this.translateCoords.x,this.translateCoords.y)
-                //this.containerArray.push(e1)
-                //this.containerArray.push(e2)
-                //document.body.append(e1,e2)
-            }
-            else
             this.remove()
-
             this.containerArray.splice(this.containerArray.indexOf(this),1)
             
         }
