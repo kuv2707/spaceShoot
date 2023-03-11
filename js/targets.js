@@ -13,6 +13,8 @@ export default class TargetSpawner
         let self=this
         let id=setInterval(()=>
         {
+            if(self.targetArr.length>100)
+            return
             if(self.Game.status=="ended")
             return clearInterval(id)
             for(let i=0;i<2;i++)
@@ -65,7 +67,8 @@ function makeTarget(Game,targetArr,x=(window.innerWidth)*Math.random(),y=0)
     t.demote=function(bulletstrength)
     {
         this.hitPts-=bulletstrength
-        this.style.fontSize=t.hitPts+"px"
+        //this.style.fontSize=t.hitPts+"px"
+        this.scale(this.hitPts/120)
         shooter.scoreBoard.addScore(bulletstrength)
         if(this.hitPts<=40)
         {

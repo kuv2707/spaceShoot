@@ -33,7 +33,7 @@ body
 .targets
 {
     position: absolute;
-    font-size: 40px;
+    font-size: 120px;
     /* border: 1px solid red; */
 }
 #scoreBoard

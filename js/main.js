@@ -1,6 +1,6 @@
 import _ from "./../js/transformManager.js"
 import shooterf from          "./../js/shooter.js"
-import bullet from            "./../js/bullet.js"
+import BulletController from  "./../js/bullet.js"
 import scoreBoard from        "./../js/score.js"
 import TargetSpawner from           "./../js/targets.js"
 import MessageShower from     "./../js/messageShower.js"
@@ -18,14 +18,14 @@ const Game={
 const shooter=shooterf(Game)
 shooter.scoreBoard=scoreBoard
 const targetspawn=new TargetSpawner(Game)
-const Bullets=bullet(Game,shooter)
+const bullets=new BulletController(Game,shooter)
 Game.start=function()
 {
     this.status="inProgress"
     targetspawn.targetShowerStart()
     let loop=function()
     {
-        Bullets.collisionInspector(targetspawn.targetArr)
+        bullets.collisionInspector(targetspawn.targetArr)
         targetspawn.targetInspector()
         if(Game.status=="inProgress")
         window.requestAnimationFrame(loop)
@@ -35,6 +35,41 @@ Game.start=function()
 }
 
 MessageShower.showMessage("Ready?",`<u>Press space</u>/<u>tap</u> to start!`)
+
+
+document.addEventListener("pointerdown",(e)=>
+{
+    Keys.set("leftmbutton",true)
+})
+document.addEventListener("pointerup",(e)=>
+{
+    Keys.set("leftmbutton",false)
+})
+document.addEventListener("pointermove",(e)=>
+{
+    shooter.move(e.clientX-shooter.offsetWidth/2,e.clientY-shooter.offsetHeight/2)
+})
+window.addEventListener("wheel",(e)=>
+{
+    console.log(e)
+    shooter.rotate(e.deltaY/10)
+})
+document.addEventListener("keypress",function(e)//for gamestart
+{
+    if(e.key==" ")
+    {
+        if(Game.status=="notStarted")
+        Game.start()
+        else
+        window.location.reload()
+    }
+})
+document.addEventListener("pointerdown",()=>
+{
+    if(Game.status=="notStarted")
+        Game.start()
+        
+},{once:true})
 
 
 
@@ -64,7 +99,7 @@ let inputId=setInterval(function()
                 break
             case "Numpad0":
             case "leftmbutton":
-                Bullets.shootBullet()
+                bullets.shootBullet()
                 break
             case "Numpad6":
                 shooter.rotate(1.5)
@@ -77,54 +112,17 @@ let inputId=setInterval(function()
         }
     })
 },15)
-document.addEventListener("keydown",(e)=>
-{
-    Keys.set(e.code,true)
+// document.addEventListener("keydown",(e)=>
+// {
+//     Keys.set(e.code,true)
     
-})
-document.addEventListener("keyup",(e)=>
-{
-    Keys.set(e.code,false)
-    if(!(Keys.get("ArrowLeft")||Keys.get("ArrowRight")))
-    shooter.stop()
-})
-document.addEventListener("pointerdown",(e)=>
-{
-    Keys.set("leftmbutton",true)
-})
-document.addEventListener("pointerup",(e)=>
-{
-    Keys.set("leftmbutton",false)
-})
-document.addEventListener("pointermove",(e)=>
-{
-    shooter.move(e.clientX-shooter.offsetWidth/2,e.clientY-shooter.offsetHeight/2)
-})
-window.addEventListener("wheel",(e)=>
-{
-    console.log(e)
-    shooter.rotate(e.deltaY/10)
-})
-document.addEventListener("keypress",function(e)//for gamestart
-{
-    if(e.key==" ")
-    {
-        if(Game.status=="notStarted")
-        Game.start()
-        else
-        window.location.reload()
-    }
-})
-if(window.innerWidth/window.innerHeight<1)
-{
-    document.addEventListener("pointerdown",()=>
-    {
-        if(Game.status=="notStarted")
-            Game.start()
-            
-    },{once:true})
-}
-
+// })
+// document.addEventListener("keyup",(e)=>
+// {
+//     Keys.set(e.code,false)
+//     if(!(Keys.get("ArrowLeft")||Keys.get("ArrowRight")))
+//     shooter.stop()
+// })
 
 
 window.dispatchEvent(new Event("resize"))

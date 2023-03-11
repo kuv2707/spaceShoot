@@ -1,36 +1,36 @@
 const BULLET_VELO=15
-
-export default function(Game,shooter)
+export default class BulletController
 {
-    
-    let exp={}
-    exp.Bullets=new Map()
-    exp.shootBullet=function()
+    constructor(Game,shooter)
     {
-        if(Game.status!="inProgress")
-        return
-        let x=shooter.translateCoords.x
-        let y=shooter.translateCoords.y
-        let bullet=document.createElement("img")
-        bullet.src=window.location.href+"images/bullet.png"
-        bullet.id="bullet"
-        bullet.strength=1+Math.random()*9
-        document.body.append(bullet)
-        window.makeTransformable(bullet)
-        bullet.rotate(shooter.rotateVal)
-        bullet.score=20
-        bullet.move(x,y)
-        bullet.direction=shooter.rotateVal*Math.PI/180
-        bullet.end=function()
+        this.Bullets=new Map()
+        this.shootBullet=function()
         {
-            exp.Bullets.delete(this)
-            this.remove()
+            if(Game.status!="inProgress")
+            return
+            let x=shooter.translateCoords.x
+            let y=shooter.translateCoords.y
+            let bullet=document.createElement("img")
+            bullet.src=window.location.href+"images/bullet.png"
+            bullet.id="bullet"
+            bullet.strength=1+Math.random()*9
+            document.body.append(bullet)
+            window.makeTransformable(bullet)
+            bullet.rotate(shooter.rotateVal)
+            bullet.score=20
+            bullet.move(x,y)
+            bullet.direction=shooter.rotateVal*Math.PI/180
+            let controller=this
+            bullet.end=function()
+            {
+                controller.Bullets.delete(this)
+                this.remove()
+            }
+            this.Bullets.set(bullet,bullet)
+    
         }
-        this.Bullets.set(bullet,bullet)
-
     }
-
-    exp.collisionInspector=function(targetArr)
+    collisionInspector=function(targetArr)
     {
         this.Bullets.forEach(bullet=>
         {
@@ -41,7 +41,6 @@ export default function(Game,shooter)
                 bullet.move(bullet.translateCoords.x+x,bullet.translateCoords.y+y)
                 for(let i=targetArr.length-1;i>=0;i--)
                 {
-                    
                     let target=targetArr[i]
                     let tco=target.translateCoords
                     let bulloc={
@@ -53,8 +52,6 @@ export default function(Game,shooter)
                     {
                         target.demote(bullet.strength)
                         bullet.end()
-                        
-                        
                     }
                 }
             }
@@ -63,8 +60,4 @@ export default function(Game,shooter)
             
         })
     }
-    return exp
 }
-
-
-
