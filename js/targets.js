@@ -1,4 +1,4 @@
-const MAX_SPD=5
+let MAX_SPD=5
 const ENEMIES=["🤖","👽","👾"]
 export default class TargetSpawner
 {
@@ -23,6 +23,7 @@ export default class TargetSpawner
                 document.body.append(targ)
                 self.targetArr.push(targ)
             }
+            MAX_SPD+=0.08
         },500)
     }
     targetInspector()

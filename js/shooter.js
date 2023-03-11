@@ -7,6 +7,12 @@ export default function(scoreBoard)
     document.body.append(shooter)
     window.makeTransformable(shooter)
     shooter.scoreBoard=scoreBoard
+    shooter.oncontextmenu=(e)=>
+    {
+        e.preventDefault()
+        e.stopImmediatePropagation()
+        e.stopPropagation()
+    }
     window.addEventListener("resize",()=>
     {
         shooter.move(window.innerWidth/2-shooter.clientWidth/2,window.innerHeight-100)
