@@ -1,4 +1,5 @@
 let MAX_SPD=5
+const G=0.6
 const ENEMIES=["🤖","👽","👾"]
 export default class TargetSpawner
 {
@@ -31,15 +32,14 @@ export default class TargetSpawner
         for(let i=this.targetArr.length-1;i>=0;i--)
         {
             let targetElement=this.targetArr[i]
-            let velocity=modulus({x:(shooter.translateCoords.x-targetElement.translateCoords.x),y:(shooter.translateCoords.y-targetElement.translateCoords.y)},targetElement.speed)
-            velocity.x+=targetElement.velocity.x
-            velocity.y+=targetElement.velocity.y
+            let relpos=normalize_and_scale_to({x:(shooter.translateCoords.x-targetElement.translateCoords.x),y:(shooter.translateCoords.y-targetElement.translateCoords.y)},targetElement.speed)
+            targetElement.velocity.x+=relpos.x*G
+            targetElement.velocity.y+=relpos.y*G
             targetElement.move(
-                targetElement.translateCoords.x+velocity.x,
-                targetElement.translateCoords.y+velocity.y)
+                targetElement.translateCoords.x+targetElement.velocity.x,
+                targetElement.translateCoords.y+targetElement.velocity.y)
 
-                if(distsq(targetElement.translateCoords,shooter.translateCoords)<40
-                || targetElement.translateCoords.y<=-100 || targetElement.translateCoords.y>window.innerHeight+100)
+                if(distsq(targetElement.translateCoords,shooter.translateCoords)<101)
                 {
                     targetElement.remove()
                     this.targetArr.splice(i,1)
@@ -58,9 +58,8 @@ function makeTarget(Game,targetArr,x=(window.innerWidth)*Math.random(),y=0)
     t.hitPts=40+Math.random()*80
     t.style.fontSize=t.hitPts+"px"
     t.className="targets"
-    t.speed=MAX_SPD*Math.random()
-    t.velocity={x:0,
-                y:0}
+    t.velocity={x:MAX_SPD*(Math.random()-0.5),
+                y:MAX_SPD*Math.random()}
     window.makeTransformable(t)
     t.move(x,y)
     t.Game=Game
@@ -80,7 +79,7 @@ function makeTarget(Game,targetArr,x=(window.innerWidth)*Math.random(),y=0)
     }
     return t
 }
-function modulus({x,y},s)
+function normalize_and_scale_to({x,y},s=1)
 {
     let mod=Math.sqrt(Math.pow(x,2)+Math.pow(y,2))
     return{
