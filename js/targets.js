@@ -1,6 +1,6 @@
 let MAX_SPD=5
 const G=0.6
-const ENEMIES=["🤖","👽","👾"]
+const ENEMIES=[["🤖",80],["👽",60],["👾",20],["💓",-20]]
 export default class TargetSpawner
 {
     constructor(Game)
@@ -35,6 +35,7 @@ export default class TargetSpawner
             let relpos=normalize_and_scale_to({x:(shooter.translateCoords.x-targetElement.translateCoords.x),y:(shooter.translateCoords.y-targetElement.translateCoords.y)},targetElement.speed)
             targetElement.velocity.x+=relpos.x*G
             targetElement.velocity.y+=relpos.y*G
+            targetElement.velocity=normalize_and_scale_to(targetElement.velocity,targetElement.speed)
             targetElement.move(
                 targetElement.translateCoords.x+targetElement.velocity.x,
                 targetElement.translateCoords.y+targetElement.velocity.y)
@@ -54,10 +55,12 @@ export default class TargetSpawner
 function makeTarget(Game,targetArr,x=(window.innerWidth)*Math.random(),y=0)
 {
     let t=document.createElement("label")
-    t.innerText=ENEMIES[Math.floor(Math.random()*ENEMIES.length)]
-    t.hitPts=40+Math.random()*80
-    t.style.fontSize=t.hitPts+"px"
+    let enem=ENEMIES[Math.floor(Math.random()*ENEMIES.length)]
+    t.innerText=enem[0]
+    t.hitPts=enem[1]
+    t.style.fontSize=40+Math.random()*t.hitPts+"px"
     t.className="targets"
+    t.speed=2+MAX_SPD*Math.random()
     t.velocity={x:MAX_SPD*(Math.random()-0.5),
                 y:MAX_SPD*Math.random()}
     window.makeTransformable(t)
